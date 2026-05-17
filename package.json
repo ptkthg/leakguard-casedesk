@@ -14,7 +14,8 @@
     "tauri:build": "tauri build",
     "tauri:icons": "tauri icon public/icon.png",
     "electron:dev": "npm run build && electron .",
-    "electron:build": "npm run build && electron-builder --win"
+    "electron:build": "npm run build && electron-builder --win",
+    "test:services": "node --test electron/test/services.test.cjs"
   },
   "build": {
     "appId": "com.leakguard.casedesk",
@@ -26,7 +27,7 @@
     "files": [
       "dist/**/*",
       "electron/**/*",
-      "!electron/test-sqlite.cjs"
+      "!electron/test/**"
     ],
     "extraMetadata": {
       "main": "electron/main.cjs"

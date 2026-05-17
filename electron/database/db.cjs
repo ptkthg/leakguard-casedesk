@@ -132,4 +132,6 @@ function initDb() {
   return db
 }
 
-module.exports = { initDb, getDb }
+function setDb(database) { db = database }
+
+module.exports = { initDb, getDb, setDb, runSchema }

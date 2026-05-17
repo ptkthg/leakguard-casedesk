@@ -5,11 +5,11 @@
 ### Mascaramento de dados sensíveis
 Dados pessoais (CPF, e-mail, telefone) são exibidos mascarados por padrão (`blur-sensitive`). O analista precisa clicar em "Revelar" explicitamente. Nunca armazenado em texto puro no estado.
 
-### Autenticação simulada
-Login valida formato de e-mail + comprimento mínimo de senha. Em produção, substituir por OAuth 2.0 / SAML / SSO corporativo. O token de sessão nunca deve ser armazenado em `localStorage` — usar `httpOnly` cookie ou memória.
+### Autenticação — modo demo intencional
+`isAuthenticated` começa como `true` por decisão de design: este é um protótipo de portfólio sem dados reais, sem senhas e sem sessões persistentes. O estado de demo é explícito no código. Em produção, substituir por OAuth 2.0 / SAML / SSO corporativo com `isAuthenticated: false` no estado inicial e validação no backend. Token de sessão nunca deve ser armazenado em `localStorage` — usar `httpOnly` cookie ou memória de processo.
 
 ### Electron: `contextIsolation: true`
-`nodeIntegration` desativado. `contextIsolation` ativo. `webSecurity: false` está habilitado apenas para permitir `file://` — em produção com servidor remoto, remover esta flag.
+`nodeIntegration` desativado. `contextIsolation` ativo. `webSecurity` não é declarado — o Electron usa `true` por padrão. Isso é seguro por três motivos: (1) todo o conteúdo é local (`file://`), sem `fetch()` cross-origin; (2) Google Fonts são carregadas via `<link>` stylesheet, não via XHR — CORS não se aplica; (3) IPC usa canais nomeados, não HTTP, e não é afetado por `webSecurity`. Nenhuma flag insegura é necessária.
 
 ### Sem secrets no frontend
 Nenhuma chave de API, token ou credencial no código-fonte. Dados mockados não contêm informações reais.
