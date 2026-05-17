@@ -1,12 +1,11 @@
 import { create } from 'zustand';
 import type { Case, Policy } from '@/types';
 import { mockCases, mockPolicies } from '@/data/mockData';
-
-type Page = 'login' | 'inbox' | 'workbench' | 'evidence' | 'copilot' | 'reports' | 'policies';
+import type { PageId } from '@/routes';
 
 interface AppState {
   isAuthenticated: boolean;
-  currentPage: Page;
+  currentPage: PageId;
   selectedCase: Case | null;
   selectedPolicy: Policy | null;
   cases: Case[];
@@ -15,7 +14,7 @@ interface AppState {
 
   login: (email: string, password: string) => boolean;
   logout: () => void;
-  navigate: (page: Page) => void;
+  navigate: (page: PageId) => void;
   selectCase: (c: Case | null) => void;
   openCaseWorkbench: (c: Case) => void;
   selectPolicy: (p: Policy | null) => void;
