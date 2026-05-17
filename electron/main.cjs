@@ -1,6 +1,9 @@
+'use strict'
 const { app, BrowserWindow, nativeTheme, Menu } = require('electron')
 const path = require('path')
 const { pathToFileURL } = require('url')
+const { initDb }          = require('./database/db.cjs')
+const { registerHandlers } = require('./ipc/handlers.cjs')
 
 nativeTheme.themeSource = 'dark'
 
@@ -14,6 +17,7 @@ function createWindow() {
     title: 'LeakGuard CaseDesk',
     icon: path.join(__dirname, 'icon.png'),
     webPreferences: {
+      preload: path.join(__dirname, 'preload.cjs'),
       nodeIntegration: false,
       contextIsolation: true,
       webSecurity: false,
@@ -21,7 +25,6 @@ function createWindow() {
     show: false,
   })
 
-  // Remove default menu for cleaner app feel
   Menu.setApplicationMenu(null)
 
   win.once('ready-to-show', () => {
@@ -33,11 +36,13 @@ function createWindow() {
   win.loadURL(pathToFileURL(indexPath).href)
 }
 
-app.whenReady().then(createWindow)
-
-app.on('window-all-closed', () => {
-  app.quit()
+app.whenReady().then(() => {
+  initDb()
+  registerHandlers()
+  createWindow()
 })
+
+app.on('window-all-closed', () => { app.quit() })
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) createWindow()

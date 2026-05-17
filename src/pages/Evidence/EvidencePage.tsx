@@ -6,7 +6,6 @@ import {
 import { useAppStore } from '@/store/useAppStore';
 import { SeverityBadge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { mockEvidences } from '@/data/mockData';
 import { formatDateTime } from '@/lib/utils';
 
 const fileTypeIcon = (type: string) => {
@@ -31,13 +30,18 @@ const classificationLabel: Record<string, string> = {
 };
 
 export function EvidencePage() {
-  const { selectedCase, cases } = useAppStore();
+  const { selectedCase, cases, evidences } = useAppStore();
   const activeCase = selectedCase || cases[0];
   const [masked, setMasked] = useState(true);
-  const [selectedEvidence, setSelectedEvidence] = useState(mockEvidences[0]);
+  const [selectedEvidence, setSelectedEvidence] = useState(evidences[0] ?? null);
   const [search, setSearch] = useState('');
 
-  const allEvidence = mockEvidences;
+  const allEvidence = search
+    ? evidences.filter((e) =>
+        e.fileName.toLowerCase().includes(search.toLowerCase()) ||
+        e.hash.toLowerCase().includes(search.toLowerCase())
+      )
+    : evidences;
 
   return (
     <div className="flex h-full overflow-hidden">

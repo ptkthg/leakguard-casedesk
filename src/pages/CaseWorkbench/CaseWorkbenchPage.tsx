@@ -8,12 +8,12 @@ import {
 import { useAppStore } from '@/store/useAppStore';
 import { SeverityBadge, StatusBadge, ChannelBadge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { mockEvidences, mockAIAnalysis, mockAuditLogs } from '@/data/mockData';
+import { mockAIAnalysis } from '@/data/mockData';
 import { formatDateTime } from '@/lib/utils';
 import type { Severity } from '@/types';
 
 export function CaseWorkbenchPage() {
-  const { selectedCase, cases, openCaseWorkbench, updateCaseStatus, navigate } = useAppStore();
+  const { selectedCase, cases, evidences, auditLogs, openCaseWorkbench, updateCaseStatus, navigate } = useAppStore();
   const activeCase = selectedCase || cases[0];
 
   const [masked, setMasked] = useState(true);
@@ -32,7 +32,7 @@ export function CaseWorkbenchPage() {
     );
   }
 
-  const evidence = mockEvidences.find((e) => e.caseId === activeCase.id) || mockEvidences[0];
+  const evidence = evidences.find((e) => e.caseId === activeCase.id) || evidences[0];
   const ai = mockAIAnalysis;
 
   return (
@@ -43,7 +43,7 @@ export function CaseWorkbenchPage() {
           <p className="text-[10px] font-medium text-[var(--color-text-muted)] uppercase tracking-wider">Casos abertos</p>
         </div>
         <div className="flex-1 overflow-y-auto">
-          {useAppStore.getState().cases.map((c) => (
+          {cases.map((c) => (
             <button
               key={c.id}
               onClick={() => openCaseWorkbench(c)}
@@ -230,7 +230,7 @@ export function CaseWorkbenchPage() {
 
           {activeTab === 'evidence' && <EvidenceTab evidence={evidence} masked={masked} setMasked={setMasked} />}
 
-          {activeTab === 'timeline' && <TimelineTab />}
+          {activeTab === 'timeline' && <TimelineTab logs={auditLogs} />}
 
           {activeTab === 'actions' && <ActionsTab caseId={activeCase.id} onContain={() => updateCaseStatus(activeCase.id, 'contained')} />}
         </div>
@@ -319,8 +319,10 @@ function AIVerdictCard({ analysis }: { analysis: typeof mockAIAnalysis }) {
   );
 }
 
+import type { Evidence } from '@/types';
+
 function EvidenceTab({ evidence, masked, setMasked }: {
-  evidence: typeof mockEvidences[0];
+  evidence: Evidence;
   masked: boolean;
   setMasked: (v: boolean) => void;
 }) {
@@ -394,12 +396,12 @@ function EvidenceTab({ evidence, masked, setMasked }: {
   );
 }
 
-function TimelineTab() {
+function TimelineTab({ logs }: { logs: { id: string; actor: string; action: string; details: string; timestamp: string; type: string }[] }) {
   return (
     <div className="bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg p-4">
       <p className="text-xs font-medium text-[var(--color-text-primary)] mb-4">Linha do tempo do incidente</p>
       <div className="space-y-0">
-        {mockAuditLogs.map((log: any, i: number) => (
+        {logs.map((log, i: number) => (
           <div key={log.id} className="flex gap-3">
             <div className="flex flex-col items-center">
               <div className={`w-2 h-2 rounded-full flex-shrink-0 mt-1 ${
@@ -407,7 +409,7 @@ function TimelineTab() {
                 log.type === 'analyst' ? 'bg-[var(--color-lavender)]' :
                 'bg-[var(--color-medium)]'
               }`} />
-              {i < mockAuditLogs.length - 1 && <div className="w-px flex-1 bg-[var(--color-border)] my-1" />}
+              {i < logs.length - 1 && <div className="w-px flex-1 bg-[var(--color-border)] my-1" />}
             </div>
             <div className="pb-4 min-w-0">
               <div className="flex items-center gap-2 mb-0.5">
