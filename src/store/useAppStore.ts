@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { Case, Evidence, Policy, AuditLog } from '@/types'
+import type { Case, Evidence, Policy, AuditLog, AlertPayload } from '@/types'
 import type { PageId } from '@/routes'
 import { api } from '@/lib/api'
 
@@ -26,6 +26,7 @@ interface AppState {
   toggleCommandPalette: () => void
   updateCaseStatus:    (id: string, status: Case['status']) => Promise<void>
   loadAuditLogs:       (caseId: string) => Promise<void>
+  importAlert:         (payload: AlertPayload) => Promise<Case>
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -140,5 +141,15 @@ export const useAppStore = create<AppState>((set, get) => ({
   loadAuditLogs: async (caseId) => {
     const logs = await api.auditLogs.getByCaseId(caseId)
     set({ auditLogs: logs })
+  },
+
+  importAlert: async (payload) => {
+    const result = await api.ingestion.importAlert(payload)
+    if (!result.ok || !result.case) {
+      throw new Error(result.errors?.join(', ') ?? 'Falha ao importar alerta')
+    }
+    set((state) => ({ cases: [result.case!, ...state.cases] }))
+    await get().openCaseWorkbench(result.case!)
+    return result.case!
   },
 }))

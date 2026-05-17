@@ -1,4 +1,4 @@
-import type { Case, Evidence, Policy, AuditLog } from '@/types'
+import type { Case, Evidence, Policy, AuditLog, AlertPayload, ImportAlertResult, Severity, Channel } from '@/types'
 import { mockCases, mockEvidences, mockPolicies, mockAuditLogs } from '@/data/mockData'
 
 // True when running inside Electron (contextBridge injected window.electronAPI)
@@ -51,5 +51,45 @@ export const api = {
       isElectron
         ? window.electronAPI!.auditLogs.create(log)
         : Promise.resolve(log),
+  },
+
+  ingestion: {
+    importAlert: (payload: AlertPayload): Promise<ImportAlertResult> => {
+      if (isElectron) return window.electronAPI!.ingestion.importAlert(payload)
+
+      const VALID_SEV = ['critical', 'high', 'medium', 'low']
+      const REQUIRED  = ['source', 'title', 'severity', 'channel', 'user', 'destination', 'policy']
+      const errors = REQUIRED
+        .filter((f) => !payload[f as keyof AlertPayload])
+        .map((f) => `Campo obrigatório ausente: "${f}"`)
+      if (payload.severity && !VALID_SEV.includes(payload.severity))
+        errors.push(`severity inválido: "${payload.severity}"`)
+      if (errors.length > 0) return Promise.resolve({ ok: false, errors })
+
+      const severity = VALID_SEV.includes(payload.severity) ? payload.severity as Severity : 'high'
+      const validChannels: Channel[] = ['email', 'cloud', 'web', 'usb', 'print']
+      const sourceChannel = validChannels.includes(payload.channel as Channel)
+        ? payload.channel as Channel
+        : 'email'
+
+      const mockCase: Case = {
+        id:             'INC-DEMO',
+        title:          payload.title,
+        description:    payload.rawText ?? '',
+        severity,
+        status:         'new',
+        origin:         payload.source,
+        receivedAt:     new Date().toISOString(),
+        assignedTo:     'Não atribuído',
+        policyViolated: payload.policy,
+        summary:        `Alerta importado de ${payload.source}.`,
+        sourceChannel,
+        destination:    payload.destination,
+        user:           payload.user,
+        device:         payload.device ?? '',
+        department:     payload.department ?? '',
+      }
+      return Promise.resolve({ ok: true, case: mockCase })
+    },
   },
 }

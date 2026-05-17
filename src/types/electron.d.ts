@@ -1,4 +1,4 @@
-import type { Case, Evidence, Policy, AuditLog } from './index'
+import type { Case, Evidence, Policy, AuditLog, AlertPayload, ImportAlertResult } from './index'
 
 interface ElectronAPI {
   cases: {
@@ -14,8 +14,11 @@ interface ElectronAPI {
     getAll: () => Promise<Policy[]>
   }
   auditLogs: {
-    getByCaseId: (caseId: string)                         => Promise<AuditLog[]>
-    create:      (log: AuditLog)                          => Promise<AuditLog>
+    getByCaseId: (caseId: string)  => Promise<AuditLog[]>
+    create:      (log: AuditLog)   => Promise<AuditLog>
+  }
+  ingestion: {
+    importAlert: (payload: AlertPayload) => Promise<ImportAlertResult>
   }
 }
 

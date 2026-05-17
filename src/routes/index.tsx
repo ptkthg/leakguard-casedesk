@@ -1,4 +1,4 @@
-import { Inbox, Briefcase, FileSearch, Bot, FileText, Shield } from 'lucide-react';
+import { Inbox, Briefcase, FileSearch, Bot, FileText, Shield, Upload } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 export type PageId =
@@ -8,7 +8,8 @@ export type PageId =
   | 'evidence'
   | 'copilot'
   | 'reports'
-  | 'policies';
+  | 'policies'
+  | 'ingestion';
 
 export interface Route {
   id: PageId;
@@ -25,6 +26,7 @@ export const routes: Route[] = [
   { id: 'copilot',   label: 'Copilot IA',          icon: <Bot size={18} />,                    inNav: true  },
   { id: 'reports',   label: 'Relatórios',          icon: <FileText size={18} />,               inNav: true  },
   { id: 'policies',  label: 'Políticas DLP',       icon: <Shield size={18} />,                 inNav: true  },
+  { id: 'ingestion', label: 'Ingestão de Alertas', icon: <Upload size={18} />,                 inNav: true  },
 ];
 
 export const navRoutes = routes.filter((r) => r.inNav);

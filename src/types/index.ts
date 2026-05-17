@@ -133,3 +133,27 @@ export interface EventFlowStep {
   icon: string;
   risk?: boolean;
 }
+
+export interface AlertPayload {
+  source: string;
+  eventId?: string;
+  title: string;
+  severity: string;
+  channel: string;
+  user: string;
+  device?: string;
+  department?: string;
+  destination: string;
+  fileName?: string;
+  fileType?: string;
+  fileSize?: string;
+  policy: string;
+  detectedFields?: Array<{ type: string; count: number }>;
+  rawText?: string;
+}
+
+export interface ImportAlertResult {
+  ok: boolean;
+  case?: Case;
+  errors?: string[];
+}

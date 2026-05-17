@@ -7,6 +7,7 @@ import { EvidencePage } from '@/pages/Evidence/EvidencePage';
 import { CopilotPage } from '@/pages/Copilot/CopilotPage';
 import { ReportsPage } from '@/pages/Reports/ReportsPage';
 import { PoliciesPage } from '@/pages/Policies/PoliciesPage';
+import { AlertIngestionPage } from '@/pages/AlertIngestion/AlertIngestionPage';
 
 export function AppShell() {
   const currentPage = useAppStore((s) => s.currentPage);
@@ -16,8 +17,9 @@ export function AppShell() {
     workbench: <CaseWorkbenchPage />,
     evidence: <EvidencePage />,
     copilot: <CopilotPage />,
-    reports: <ReportsPage />,
-    policies: <PoliciesPage />,
+    reports:   <ReportsPage />,
+    policies:  <PoliciesPage />,
+    ingestion: <AlertIngestionPage />,
   };
   const pageContent = pages[currentPage] ?? <CaseInboxPage />;
 

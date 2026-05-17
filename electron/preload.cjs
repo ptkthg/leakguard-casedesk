@@ -18,4 +18,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getByCaseId: (caseId) => ipcRenderer.invoke('db:auditLogs:getByCaseId', caseId),
     create:      (log)    => ipcRenderer.invoke('db:auditLogs:create', log),
   },
+  ingestion: {
+    importAlert: (payload) => ipcRenderer.invoke('db:ingestion:importAlert', payload),
+  },
 })

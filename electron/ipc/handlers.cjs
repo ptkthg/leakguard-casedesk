@@ -1,9 +1,10 @@
 'use strict'
 const { ipcMain } = require('electron')
-const caseService     = require('../services/caseService.cjs')
-const evidenceService = require('../services/evidenceService.cjs')
-const policyService   = require('../services/policyService.cjs')
-const auditService    = require('../services/auditService.cjs')
+const caseService         = require('../services/caseService.cjs')
+const evidenceService     = require('../services/evidenceService.cjs')
+const policyService       = require('../services/policyService.cjs')
+const auditService        = require('../services/auditService.cjs')
+const alertImportService  = require('../services/alertImportService.cjs')
 
 const STATUS_LABELS = {
   new:            'Novo',
@@ -57,6 +58,11 @@ function registerHandlers() {
   )
 
   ipcMain.handle('db:auditLogs:create', (_, log) => auditService.create(log))
+
+  // ─── Ingestion ────────────────────────────────────────────────────────────
+  ipcMain.handle('db:ingestion:importAlert', (_, payload) =>
+    alertImportService.importAlert(payload)
+  )
 }
 
 module.exports = { registerHandlers }
