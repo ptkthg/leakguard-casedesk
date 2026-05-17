@@ -148,7 +148,13 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (!result.ok || !result.case) {
       throw new Error(result.errors?.join(', ') ?? 'Falha ao importar alerta')
     }
-    set((state) => ({ cases: [result.case!, ...state.cases] }))
+    // Full reload — evidence created in the same DB transaction must be visible in state
+    const [cases, evidences] = await Promise.all([
+      api.cases.getAll(),
+      api.evidences.getAll(),
+    ])
+    set({ cases, evidences })
+    // openCaseWorkbench sets selectedCase, navigates to workbench, and loads auditLogs
     await get().openCaseWorkbench(result.case!)
     return result.case!
   },

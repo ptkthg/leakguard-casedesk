@@ -32,7 +32,7 @@ export function CaseWorkbenchPage() {
     );
   }
 
-  const evidence = evidences.find((e) => e.caseId === activeCase.id) || evidences[0];
+  const evidence = evidences.find((e) => e.caseId === activeCase.id) ?? null;
   const ai = mockAIAnalysis;
 
   return (
@@ -126,7 +126,7 @@ export function CaseWorkbenchPage() {
                       { label: 'Remetente', value: activeCase.user, icon: User },
                       { label: 'Destinatário', value: activeCase.destination, icon: Server },
                       { label: 'Assunto', value: `Fwd: ${activeCase.title}`, icon: Mail },
-                      { label: 'Anexo', value: evidence.fileName, icon: Paperclip },
+                      { label: 'Anexo', value: evidence?.fileName ?? 'N/A', icon: Paperclip },
                       { label: 'Data/Hora', value: formatDateTime(activeCase.receivedAt), icon: Clock },
                       { label: 'Message-ID', value: '<msg-2048@smtp.empresa.com>', icon: Hash },
                     ].map(({ label, value, icon: Icon }) => (
@@ -163,7 +163,7 @@ export function CaseWorkbenchPage() {
                     </button>
                   </div>
                   <div className="p-4 space-y-2">
-                    {evidence.detectedFields.map((field) => (
+                    {evidence ? evidence.detectedFields.map((field) => (
                       <div
                         key={field.type}
                         className="flex items-center justify-between px-3 py-2 rounded-lg bg-[var(--color-bg-elevated)] border border-[var(--color-border)]"
@@ -179,7 +179,11 @@ export function CaseWorkbenchPage() {
                           <p className="text-[9px] text-[var(--color-text-muted)]">registros</p>
                         </div>
                       </div>
-                    ))}
+                    )) : (
+                      <p className="text-[10px] text-center py-3" style={{ color: 'var(--color-text-muted)' }}>
+                        Nenhum dado sensível detectado para este caso.
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -322,10 +326,29 @@ function AIVerdictCard({ analysis }: { analysis: typeof mockAIAnalysis }) {
 import type { Evidence } from '@/types';
 
 function EvidenceTab({ evidence, masked, setMasked }: {
-  evidence: Evidence;
+  evidence: Evidence | null;
   masked: boolean;
   setMasked: (v: boolean) => void;
 }) {
+  if (!evidence) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <div
+          className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
+          style={{ background: 'var(--color-bg-elevated)' }}
+        >
+          <Paperclip className="w-6 h-6" style={{ color: 'var(--color-text-muted)' }} />
+        </div>
+        <p className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>
+          Nenhuma evidência vinculada a este caso
+        </p>
+        <p className="text-[10px] mt-1" style={{ color: 'var(--color-text-muted)' }}>
+          A evidência será exibida aqui após ser associada ao caso
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <div className="bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg p-4">

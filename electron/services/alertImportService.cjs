@@ -2,6 +2,7 @@
 const { getDb } = require('../database/db.cjs')
 
 const VALID_SEVERITIES = new Set(['critical', 'high', 'medium', 'low'])
+const VALID_CHANNELS   = new Set(['email', 'cloud', 'web', 'usb', 'print'])
 const REQUIRED = ['source', 'title', 'severity', 'channel', 'user', 'destination', 'policy']
 
 function validate(payload) {
@@ -13,6 +14,9 @@ function validate(payload) {
   }
   if (payload.severity && !VALID_SEVERITIES.has(payload.severity)) {
     errors.push(`severity inválido: "${payload.severity}". Aceitos: critical, high, medium, low`)
+  }
+  if (payload.channel && !VALID_CHANNELS.has(payload.channel)) {
+    errors.push(`channel inválido: "${payload.channel}". Aceitos: email, cloud, web, usb, print`)
   }
   return errors
 }

@@ -150,6 +150,18 @@ describe('alertImportService.validate', () => {
     const errors = alertImportService.validate({ ...VALID_PAYLOAD, user: '', destination: '' })
     assert.ok(errors.length >= 2)
   })
+
+  test('channel inválido gera erro', () => {
+    const errors = alertImportService.validate({ ...VALID_PAYLOAD, channel: 'smtp' })
+    assert.ok(errors.some(e => e.includes('channel inválido')))
+  })
+
+  test('channel válidos são aceitos sem erro', () => {
+    for (const ch of ['email', 'cloud', 'web', 'usb', 'print']) {
+      const errors = alertImportService.validate({ ...VALID_PAYLOAD, channel: ch })
+      assert.ok(!errors.some(e => e.includes('channel')), `"${ch}" deve ser aceito`)
+    }
+  })
 })
 
 describe('alertImportService.importAlert', () => {
