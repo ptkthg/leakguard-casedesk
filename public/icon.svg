@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#08080E"/>
+  <!-- Outer glow ring -->
+  <circle cx="256" cy="256" r="200" fill="none" stroke="#7C3AED" stroke-width="2" opacity="0.3"/>
+  <!-- Shield shape -->
+  <path d="M256 80 L380 140 L380 280 C380 360 320 420 256 440 C192 420 132 360 132 280 L132 140 Z" fill="#0E0E18" stroke="#7C3AED" stroke-width="3"/>
+  <!-- Shield inner glow -->
+  <path d="M256 100 L364 155 L364 278 C364 348 308 402 256 420 C204 402 148 348 148 278 L148 155 Z" fill="#13131F"/>
+  <!-- Lock body -->
+  <rect x="204" y="248" width="104" height="80" rx="12" fill="#7C3AED"/>
+  <!-- Lock shackle -->
+  <path d="M224 248 L224 220 C224 196 288 196 288 220 L288 248" stroke="#A78BFA" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <!-- Keyhole -->
+  <circle cx="256" cy="280" r="12" fill="#08080E"/>
+  <rect x="250" y="288" width="12" height="20" rx="3" fill="#08080E"/>
+  <!-- Accent dots -->
+  <circle cx="192" cy="180" r="4" fill="#7C3AED" opacity="0.6"/>
+  <circle cx="320" cy="180" r="4" fill="#7C3AED" opacity="0.6"/>
+  <circle cx="256" cy="160" r="3" fill="#A78BFA" opacity="0.8"/>
+</svg>
