@@ -23,8 +23,8 @@ interface AppState {
 }
 
 export const useAppStore = create<AppState>((set) => ({
-  isAuthenticated: false,
-  currentPage: 'login',
+  isAuthenticated: true,
+  currentPage: 'inbox',
   selectedCase: null,
   selectedPolicy: null,
   cases: mockCases,
