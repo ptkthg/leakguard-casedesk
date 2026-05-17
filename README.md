@@ -1,139 +1,106 @@
 <div align="center">
+  <img src="public/logo.png" width="96" alt="LeakGuard CaseDesk" />
+  <h1>LeakGuard CaseDesk</h1>
+  <p>Plataforma de investigação e triagem de incidentes DLP para times de SOC e Segurança da Informação.</p>
 
-# LeakGuard CaseDesk
-
-**Plataforma de Investigação de Incidentes DLP para Times de SOC**
-
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript)](https://typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
-[![Electron](https://img.shields.io/badge/Electron-42-47848F?style=flat-square&logo=electron)](https://electronjs.org)
-[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite)](https://vitejs.dev)
-
+  ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white)
+  ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)
+  ![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+  ![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white)
+  ![Electron](https://img.shields.io/badge/Electron-42-47848F?style=flat-square&logo=electron&logoColor=white)
 </div>
 
 ---
 
-## Sobre o projeto
+## Sobre
 
-LeakGuard CaseDesk é uma aplicação **desktop** de investigação e triagem de incidentes DLP (Data Loss Prevention) construída para times de Segurança da Informação e SOC.
+LeakGuard CaseDesk é uma aplicação **desktop** para investigação e triagem de incidentes DLP, criada para apoiar times de SOC e Segurança da Informação na análise de possíveis vazamentos de dados, classificação de risco, geração de parecer técnico com IA e produção de relatórios de incidente.
 
-O produto simula uma ferramenta operacional real — com fluxo de trabalho completo de analista, parecer técnico por IA, gestão de políticas DLP e relatórios formais de incidente com trilha de auditoria.
-
-> Projeto de portfólio demonstrando domínio de produto, UX/UI sofisticado, arquitetura React moderna e empacotamento como app desktop com Electron.
+O produto foi desenhado como uma **ferramenta operacional real** — não um dashboard genérico. O analista recebe o caso, investiga as evidências, obtém um parecer estruturado da IA, toma ações e gera o relatório formal sem sair da aplicação.
 
 ---
 
-## Telas do produto
+## Telas
 
-### Login corporativo
-Autenticação com suporte a SSO. Visual premium escuro com identidade da marca LeakGuard.
-
-### Caixa de Entrada de Casos
-Lista de incidentes DLP com indicadores operacionais em tempo real — casos recebidos hoje, em análise, aguardando ação e SLA crítico. Filtros por severidade e status, busca, paginação e painel lateral de preview do caso selecionado.
-
-### Mesa de Trabalho do Caso
-Ambiente de investigação completo com abas e 4 áreas integradas:
-- **Evidência bruta** — remetente, destinatário, assunto, anexo, ID da mensagem, corpo do e-mail
-- **Dados sensíveis detectados** — CPF, e-mail, telefone, nome, contrato com mascaramento dinâmico
-- **Fluxo do evento** — `Usuário → Arquivo → Canal → Destino → Política violada → Risco`
-- **Parecer da IA** — análise técnica estruturada com severidade, base legal LGPD e recomendação
-
-### Evidências e Artefatos
-Pré-visualização de planilha XLSX com dados mascarados, tabela de artefatos com hash SHA-256, cadeia de custódia, classificação automática de dados e verificação de integridade.
-
-### LeakGuard Copilot
-Assistente de operações de segurança com 6 tarefas rápidas: resumir incidente, gerar plano de resposta, explicar política, comparar casos similares, relatório executivo e análise LGPD com checklist de obrigações. Saída estruturada em seções — não um chatbot genérico.
-
-### Relatório e Auditoria
-Documento formal de incidente gerado dentro do app com 6 seções colapsáveis (Resumo Executivo, Evidências, Dados Envolvidos, Ações Recomendadas, Status e Decisão Final). Exportação PDF/DOCX/XLSX/JSON, assinatura digital e trilha de auditoria com timeline.
-
-### Políticas DLP
-Gestão completa de políticas com tabela de 8 políticas, painel de edição inline com 4 abas (Detalhes, Canais, Ações, Histórico), toggles de cobertura por canal e controle de modo ativo/simulação.
-
----
-
-## Stack técnica
-
-| Camada | Tecnologia |
+| Módulo | Descrição |
 |--------|-----------|
-| Framework | React 19 + TypeScript |
-| Build | Vite 8 |
-| Estilo | Tailwind CSS v4 (`@theme` directive, sem config file) |
-| Estado | Zustand |
-| Ícones | Lucide React |
-| Desktop | Electron 42 + electron-builder |
-| Tipografia | Inter + JetBrains Mono |
+| **Login** | Autenticação corporativa com suporte a SSO |
+| **Caixa de Entrada** | Triagem de incidentes com KPIs operacionais em tempo real |
+| **Mesa de Trabalho** | Investigação completa: evidência bruta, dados detectados, fluxo do evento e parecer de IA |
+| **Evidências** | Pré-visualização de artefatos com mascaramento, hash SHA-256 e cadeia de custódia |
+| **Copilot IA** | Assistente de operações com plano de resposta, análise LGPD e relatório executivo |
+| **Relatórios** | Documento formal de incidente com exportação PDF / DOCX / XLSX / JSON |
+| **Políticas DLP** | Gestão de políticas com edição inline, canais, ações e histórico |
 
 ---
 
-## Arquitetura
+## Stack
+
+```
+React 19 · TypeScript · Vite 8 · Tailwind CSS v4 · Zustand · Lucide React · Electron 42
+```
+
+---
+
+## Estrutura
 
 ```
 src/
-├── types/          # Interfaces TypeScript (Case, Evidence, Policy, AIAnalysis...)
-├── data/           # Mock data realista (casos, políticas, IA, auditoria, relatórios)
-├── store/          # Estado global com Zustand
-├── lib/            # Utilitários (cn, formatadores de data)
+├── routes/        # Definição central de rotas e PageId
+├── types/         # Interfaces TypeScript (Case, Evidence, Policy, AIAnalysis...)
+├── data/          # Mock data realista
+├── store/         # Estado global com Zustand
+├── lib/           # Utilitários (cn, formatadores)
+├── styles/        # Design system (@theme tokens, reset, animações)
 ├── components/
-│   ├── layout/     # AppShell, TopBar, SideNav
-│   └── ui/         # Badge (Severity, Status, Channel), Button
-└── pages/
-    ├── Login/
-    ├── CaseInbox/
-    ├── CaseWorkbench/
-    ├── Evidence/
-    ├── Copilot/
-    ├── Reports/
-    └── Policies/
+│   ├── layout/    # AppShell, TopBar, SideNav
+│   └── ui/        # Badge, Button
+└── pages/         # Login, CaseInbox, CaseWorkbench, Evidence, Copilot, Reports, Policies
 ```
 
 ---
 
-## Rodando o projeto
+## Rodando
 
-### Pré-requisitos
-- Node.js 18+
-
-### Modo web (desenvolvimento)
 ```bash
+# Instalar dependências
 npm install
+
+# Modo web
 npm run dev
-```
-Acesse `http://localhost:5173`
+# → http://localhost:5173
+# Login: qualquer e-mail + senha com 6+ caracteres
 
-**Login:** qualquer e-mail + senha com 6+ caracteres (ex: `analista@empresa.com` / `123456`)
-
-### Build do app desktop (.exe para Windows)
-```bash
-npm install
+# Build desktop (.exe Windows)
 npm run build
 npx electron-builder --win
+# → release/LeakGuard-CaseDesk-Portable.exe
 ```
-
-Saída em `release/`:
-- `LeakGuard-CaseDesk-Portable.exe` — portátil, sem instalação
-- `LeakGuard CaseDesk Setup 1.0.0.exe` — instalador completo
 
 ---
 
 ## Design
 
-### Paleta de cores
-| Token | Valor | Uso |
-|-------|-------|-----|
-| `bg-primary` | `#08080E` | Fundo principal |
-| `bg-panel` | `#0E0E18` | Painéis e sidebar |
-| `accent` | `#7C3AED` | Roxo — destaque principal |
-| `lavender` | `#A78BFA` | Texto em destaque, estados ativos |
-| `critical` | `#DC2626` | Severidade crítica |
-| `high` | `#EA580C` | Severidade alta |
-| `medium` | `#CA8A04` | Severidade média |
-| `low` | `#3B82F6` | Severidade baixa |
-| `success` | `#16A34A` | Contido / resolvido |
+Paleta escura com roxo ametista como destaque principal. Tipografia Inter + JetBrains Mono. Visual inspirado em Obsidian, Linear e ferramentas forenses corporativas — longe do dashboard cyber genérico.
 
-### Referências visuais
-Obsidian · Linear · ferramentas forenses corporativas · software desktop premium
+| Token | Valor |
+|-------|-------|
+| Background | `#08080E` |
+| Painel | `#0E0E18` |
+| Accent | `#7C3AED` |
+| Lavender | `#A78BFA` |
+| Crítico | `#DC2626` |
+| Alto | `#EA580C` |
+| Médio | `#CA8A04` |
+| Baixo | `#3B82F6` |
+
+---
+
+## Documentação
+
+- [Produto](docs/product.md) — fluxo, módulos e personas
+- [Arquitetura](docs/architecture.md) — estrutura, estado e roteamento
+- [Segurança](docs/security.md) — práticas, LGPD e recomendações para produção
 
 ---
 
